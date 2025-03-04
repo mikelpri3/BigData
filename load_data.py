@@ -128,31 +128,3 @@ if __name__ == "__main__":
 #plt.axis("off")
 #plt.savefig("output2.png") # Guarda la imagen en un archivo
 #plt.close()
-
-#todo funciona bien 
-path = kagglehub.dataset_download("mohammadhossein77/brain-tumors-dataset")
-path = path + "/Data"
-#Cargar path a carpetas
-healthy_path = os.path.join(path, "Normal")
-tumor_path = os.path.join(path, "Tumor")
-
-#Cargar path carpetas tumores
-glioma_path = os.path.join(tumor_path, "glioma_tumor")
-meningioma_path = os.path.join(tumor_path, "meningioma_tumor")
-pituitary_path = os.path.join(tumor_path, "pituitary_tumor")
-
-#Cargar imagenes
-healthy_images = sorted(os.listdir(healthy_path))
-glioma_images = sorted(os.listdir(glioma_path))
-meningioma_images = sorted(os.listdir(meningioma_path))
-pituitary_images = sorted(os.listdir(pituitary_path))
-
-img_path = os.path.join(healthy_path, healthy_images[0])
-img = cv2.imread(img_path)
-img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  # OpenCV carga en BGR, lo convertimos a RGB
-
-plt.imshow(img)
-plt.axis("off")
-plt.savefig("output.png") # Guarda la imagen en un archivo
-plt.close()
-print("Imagen guardada como output.png")
