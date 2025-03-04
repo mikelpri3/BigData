@@ -18,26 +18,14 @@ IMG_SIZE = (224, 224)
 
 #funcion para cargar imagen
 def load_and_preprocess_image(image_path):
-    img = cv2.imread(image_path)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    img = cv2.resize(img, IMG_SIZE)
-    img = img / 255.0  # Normalizar valores entre 0 y 1
-    return img
+  img = cv2.imread(image_path)
+  img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+  img = cv2.resize(img, IMG_SIZE)
+  img = img / 255.0  # Normalizar valores entre 0 y 1
+  return img
 
 
 def load_dataset(path):
-  #########################   CODIGO PRUEBAAAAAAAA  ################################
-  # # Check if saved data exists
-  # if not force_reload and os.path.exists("X_train.npy") and os.path.exists("X_test.npy"):
-  #     print("Loading preprocessed data from .npy files...")
-  #     X_train = np.load("X_train.npy")
-  #     X_test = np.load("X_test.npy")
-  #     y_train = np.load("y_train.npy")
-  #     y_test = np.load("y_test.npy")
-  #     return X_train, X_test, y_train, y_test
-
-  # print("Loading and preprocessing images...")
-
   #Cargar path a carpetas
   healthy_path = os.path.join(path, "Normal")
   tumor_path = os.path.join(path, "Tumor")
@@ -58,8 +46,8 @@ def load_dataset(path):
 
   #Pasar las imagenes a arrays
   for img_name in healthy_images:
-    img_path = os.path.join(healthy_path, img_name)
-    x.append(load_and_preprocess_image(img_path))
+    img_path = os.path.join(meningioma_path, img_name)
+    x.append(img_name)
     y.append(0)
 
   for img_name in glioma_images:
@@ -83,32 +71,36 @@ def load_dataset(path):
 
   y = to_categorical(y, num_classes=4)
 
-  #########################   CODIGO PRUEBAAAAAAAA  ################################
-  #   # Split into training and testing
-  # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, shuffle=True)
-
-  # # Save preprocessed data to avoid reloading
-  # np.save("X_train.npy", X_train)
-  # np.save("X_test.npy", X_test)
-  # np.save("y_train.npy", y_train)
-  # np.save("y_test.npy", y_test)
-
-  # print("Dataset saved as .npy files!")
-  # return X_train, X_test, y_train, y_test
-
   # Separar en entrenamiento y prueba
   return train_test_split(x, y, test_size=0.2, random_state=42, shuffle=True)
 
 
 # Si ejecutamos este archivo directamente, cargamos el dataset
 if __name__ == "__main__":
-    dataset_path = kagglehub.dataset_download("mohammadhossein77/brain-tumors-dataset")
-    dataset_path = dataset_path + "/Data"
-    X_train, X_test, y_train, y_test = load_dataset(dataset_path)
-    print(f"Datos cargados: {len(X_train)} entrenamiento, {len(X_test)} prueba")
+  dataset_path = kagglehub.dataset_download("mohammadhossein77/brain-tumors-dataset")
+  dataset_path = dataset_path + "/Data"
+  X_train, X_test, y_train, y_test = load_dataset(dataset_path)
+  print(f"Datos cargados: {len(X_train)} entrenamiento, {len(X_test)} prueba")
 
 
-#Intentar imprimir un cerebro sano
+####################################  PRUEBAS  ########################################
+
+
+# path = kagglehub.dataset_download("mohammadhossein77/brain-tumors-dataset")
+# path = path + "/Data"
+# healthy_path = os.path.join(path, "Normal")
+# tumor_path = os.path.join(path, "Tumor")
+
+# #Cargar path carpetas tumores
+# glioma_path = os.path.join(tumor_path, "glioma_tumor")
+# meningioma_path = os.path.join(tumor_path, "meningioma_tumor")
+# pituitary_path = os.path.join(tumor_path, "pituitary_tumor")
+
+# #Cargar imagenes
+# healthy_images = sorted(os.listdir(healthy_path))
+# glioma_images = sorted(os.listdir(glioma_path))
+# meningioma_images = sorted(os.listdir(meningioma_path))
+# pituitary_images = sorted(os.listdir(pituitary_path))
 #img_path = os.path.join(healthy_path, healthy_images[0])
 #img = cv2.imread(img_path)
 #img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  # OpenCV carga en BGR, lo convertimos a RGB
