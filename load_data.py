@@ -26,6 +26,18 @@ def load_and_preprocess_image(image_path):
 
 
 def load_dataset(path):
+  #########################   CODIGO PRUEBAAAAAAAA  ################################
+  # # Check if saved data exists
+  # if not force_reload and os.path.exists("X_train.npy") and os.path.exists("X_test.npy"):
+  #     print("Loading preprocessed data from .npy files...")
+  #     X_train = np.load("X_train.npy")
+  #     X_test = np.load("X_test.npy")
+  #     y_train = np.load("y_train.npy")
+  #     y_test = np.load("y_test.npy")
+  #     return X_train, X_test, y_train, y_test
+
+  # print("Loading and preprocessing images...")
+
   #Cargar path a carpetas
   healthy_path = os.path.join(path, "Normal")
   tumor_path = os.path.join(path, "Tumor")
@@ -70,6 +82,20 @@ def load_dataset(path):
   y = np.array(y)
 
   y = to_categorical(y, num_classes=4)
+
+  #########################   CODIGO PRUEBAAAAAAAA  ################################
+  #   # Split into training and testing
+  # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, shuffle=True)
+
+  # # Save preprocessed data to avoid reloading
+  # np.save("X_train.npy", X_train)
+  # np.save("X_test.npy", X_test)
+  # np.save("y_train.npy", y_train)
+  # np.save("y_test.npy", y_test)
+
+  # print("Dataset saved as .npy files!")
+  # return X_train, X_test, y_train, y_test
+
   # Separar en entrenamiento y prueba
   return train_test_split(x, y, test_size=0.2, random_state=42, shuffle=True)
 
@@ -104,3 +130,29 @@ if __name__ == "__main__":
 #plt.close()
 
 #todo funciona bien 
+path = kagglehub.dataset_download("mohammadhossein77/brain-tumors-dataset")
+path = path + "/Data"
+#Cargar path a carpetas
+healthy_path = os.path.join(path, "Normal")
+tumor_path = os.path.join(path, "Tumor")
+
+#Cargar path carpetas tumores
+glioma_path = os.path.join(tumor_path, "glioma_tumor")
+meningioma_path = os.path.join(tumor_path, "meningioma_tumor")
+pituitary_path = os.path.join(tumor_path, "pituitary_tumor")
+
+#Cargar imagenes
+healthy_images = sorted(os.listdir(healthy_path))
+glioma_images = sorted(os.listdir(glioma_path))
+meningioma_images = sorted(os.listdir(meningioma_path))
+pituitary_images = sorted(os.listdir(pituitary_path))
+
+img_path = os.path.join(healthy_path, healthy_images[0])
+img = cv2.imread(img_path)
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  # OpenCV carga en BGR, lo convertimos a RGB
+
+plt.imshow(img)
+plt.axis("off")
+plt.savefig("output.png") # Guarda la imagen en un archivo
+plt.close()
+print("Imagen guardada como output.png")
