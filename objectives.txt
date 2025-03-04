@@ -1,0 +1,9 @@
+OUR PROJECT OBJECTIVES
+
+1. Load the dataset correctly
+2. Create path for different folders, so we can distinguish between the different tumours
+3. Data preparation (categorize images)
+4. Learn about tensorflow and OpenCV to decide which one we use to train our model
+5.1 Train, test and validation of our model.
+5.2 If our model is wrong, change it and do the 5.1 step again
+6. Make visualizations of our model and sell it to osakidetza
