@@ -1,5 +1,6 @@
 import tensorflow as tf
 import kagglehub
+import os 
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 from load_data import load_dataset, path  # Importamos la función para cargar los datos
@@ -24,7 +25,7 @@ def create_model():
 # Si ejecutamos este archivo directamente, entrenamos el modelo
 if __name__ == "__main__":
     dataset_path = kagglehub.dataset_download("mohammadhossein77/brain-tumors-dataset")
-    dataset_path = dataset_path + "/Data"
+    dataset_path = os.path.join(dataset_path, "Data")
     X_train, X_test, y_train, y_test = load_dataset(dataset_path)
 
     model = create_model()
