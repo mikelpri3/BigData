@@ -67,7 +67,7 @@ def load_dataset(path):
     y.append(3)
 
   #convertir a array de numpy
-  x = np.array(x)
+  #x = np.array(x)
   y = np.array(y)
 
   # Separar en entrenamiento y prueba
