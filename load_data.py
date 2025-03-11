@@ -10,7 +10,8 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.utils import to_categorical
+
+
 
 
 IMG_SIZE = (224, 224)
@@ -69,8 +70,6 @@ def load_dataset(path):
   x = np.array(x)
   y = np.array(y)
 
-  y = to_categorical(y, num_classes=4)
-
   # Separar en entrenamiento y prueba
   return train_test_split(x, y, test_size=0.2, random_state=42, shuffle=True)
 
@@ -78,7 +77,7 @@ def load_dataset(path):
 # Si ejecutamos este archivo directamente, cargamos el dataset
 if __name__ == "__main__":
   dataset_path = kagglehub.dataset_download("mohammadhossein77/brain-tumors-dataset")
-  dataset_path = dataset_path + "/Data"
+  dataset_path = os.path.join(dataset_path, "Data")
   X_train, X_test, y_train, y_test = load_dataset(dataset_path)
   print(f"Datos cargados: {len(X_train)} entrenamiento, {len(X_test)} prueba")
 
