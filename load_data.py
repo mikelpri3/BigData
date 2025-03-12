@@ -42,6 +42,12 @@ def load_dataset(path):
   meningioma_images = sorted(os.listdir(meningioma_path))
   pituitary_images = sorted(os.listdir(pituitary_path))
 
+  #max_images = 500  # Ajusta según la memoria disponible para ejecutarlo en el portatil
+  #healthy_images = healthy_images[:max_images]
+  #glioma_images = glioma_images[:max_images]
+  #meningioma_images = meningioma_images[:max_images]
+  #pituitary_images = pituitary_images[:max_images]
+
   x = [] #imagenes
   y = [] #etiquetas
 
