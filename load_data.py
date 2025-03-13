@@ -37,10 +37,10 @@ def load_dataset(path):
   pituitary_path = os.path.join(tumor_path, "pituitary_tumor")
 
   #Cargar imagenes
-  healthy_images = sorted(os.listdir(healthy_path))
-  glioma_images = sorted(os.listdir(glioma_path))
-  meningioma_images = sorted(os.listdir(meningioma_path))
-  pituitary_images = sorted(os.listdir(pituitary_path))
+  healthy_images = os.listdir(healthy_path)
+  glioma_images = os.listdir(glioma_path)
+  meningioma_images = os.listdir(meningioma_path)
+  pituitary_images = os.listdir(pituitary_path)
 
   #max_images = 500  # Ajusta según la memoria disponible para ejecutarlo en el portatil
   #healthy_images = healthy_images[:max_images]
