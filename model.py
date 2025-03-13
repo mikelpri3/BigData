@@ -1,39 +1,91 @@
-import tensorflow as tf
 import kagglehub
-import os 
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
-from load_data import load_dataset, path  # Importamos la función para cargar los datos
+from load_data import load_dataset
+import os
+import cv2
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import torchvision.transforms as transforms
+from torch.utils.data import DataLoader, Dataset
+import matplotlib.pyplot as plt
+dataset_path = kagglehub.dataset_download("mohammadhossein77/brain-tumors-dataset")
+dataset_path = os.path.join(dataset_path, "Data")
 
-# Definir la función para construir el modelo
-def create_model():
-    model = Sequential([
-        Conv2D(32, (3, 3), activation="relu", input_shape=(224, 224, 3)),
-        MaxPooling2D((2, 2)),
-        Conv2D(64, (3, 3), activation="relu"),
-        MaxPooling2D((2, 2)),
-        Conv2D(128, (3, 3), activation="relu"),
-        MaxPooling2D((2, 2)),
-        Flatten(),
-        Dense(128, activation="relu"),
-        Dropout(0.5),
-        Dense(1, activation="sigmoid")
-    ])
-    model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
-    return model
 
-# Si ejecutamos este archivo directamente, entrenamos el modelo
-if __name__ == "__main__":
-    dataset_path = kagglehub.dataset_download("mohammadhossein77/brain-tumors-dataset")
-    dataset_path = os.path.join(dataset_path, "Data")
-    X_train, X_test, y_train, y_test = load_dataset(dataset_path)
 
-    model = create_model()
-    model.summary()
+IMG_SIZE = (224, 224)
 
-    history = model.fit(X_train, y_train, epochs=10, validation_data=(X_test, y_test), batch_size=32)
+class BrainTumorDataset(Dataset):
+    def __init__(self, root_dir, transform=None):
+        self.root_dir = root_dir
+        self.transform = transform
+        self.classes = ["Normal", "Tumor/glioma_tumor", "Tumor/meningioma_tumor", "Tumor/pituitary_tumor"]
+        self.images = []
+        self.labels = []
 
-    test_loss, test_acc = model.evaluate(X_test, y_test)
-    print(f"Precisión en datos de prueba: {test_acc:.2%}")
+        # Load all image paths
+        for label, category in enumerate(self.classes):
+            category_path = os.path.join(root_dir, category)
+            for img_name in os.listdir(category_path):
+                img_path = os.path.join(category_path, img_name)
+                self.images.append(img_path)
+                self.labels.append(label)
 
-    model.save("modelo_tumores.h5")
+    def __len__(self):
+        return len(self.images)
+
+    def __getitem__(self, idx):
+        img_path = self.images[idx]
+        img = cv2.imread(img_path)
+        if img is None:
+            raise FileNotFoundError(f"Could not load image: {img_path}")
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB
+        img = cv2.resize(img, IMG_SIZE)  # Resize
+        img = img / 255.0  # Normalize
+
+        if self.transform:
+            img = self.transform(img)
+
+        label = self.labels[idx]
+        return img, label
+
+
+transform = transforms.Compose([
+    transforms.ToTensor(),  # Convert NumPy image to PyTorch tensor
+])
+
+
+# Create dataset
+brain_dataset = BrainTumorDataset(dataset_path, transform=transform)
+
+# Split dataset into training and testing
+train_size = int(0.8 * len(brain_dataset))
+test_size = len(brain_dataset) - train_size
+train_dataset, test_dataset = torch.utils.data.random_split(brain_dataset, [train_size, test_size])
+
+# Create data loaders
+train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
+
+import matplotlib.pyplot as plt
+
+# # Get one batch of images
+data_iter = iter(train_loader)
+images, labels = next(data_iter)
+
+# # Convert tensor to NumPy image for display
+image = images[0].permute(1, 2, 0).numpy()  # Convert from (C, H, W) to (H, W, C)
+
+# # Plot the image
+plt.imshow(image)
+plt.axis("off")
+plt.savefig("output_model.png")
+plt.close()
+print("Imagen guardada como output_model.png")
+
+
+######################  HASTA AQUI FUNCIONA   ####################################
+
+
+
