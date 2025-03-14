@@ -11,7 +11,7 @@ from sklearn.metrics import classification_report, accuracy_score
 
 dataset_path = kagglehub.dataset_download("mohammadhossein77/brain-tumors-dataset")
 dataset_path = os.path.join(dataset_path, "Data")
-x, y = load_dataset(dataset_path)
+
 X_train, X_test, y_train, y_test = load_dataset(dataset_path)
 
 # Flatten the images for Logistic Regression
