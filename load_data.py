@@ -53,8 +53,8 @@ def load_dataset(path):
 
   #Pasar las imagenes a arrays
   for img_name in healthy_images:
-    img_path = os.path.join(meningioma_path, img_name)
-    x.append(img_name)
+    img_path = os.path.join(healthy_path, img_name)
+    x.append(load_and_preprocess_image(img_path))
     y.append(0)
 
   for img_name in glioma_images:
@@ -73,7 +73,7 @@ def load_dataset(path):
     y.append(3)
 
   #convertir a array de numpy
-  #x = np.array(x)
+  x = np.array(x)
   y = np.array(y)
 
   # Separar en entrenamiento y prueba
