@@ -1,11 +1,7 @@
 import kagglehub
 
 import os
-import cv2
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from load_data import load_dataset, load_and_preprocess_image
+from load_data import load_dataset
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, accuracy_score
 
@@ -20,7 +16,6 @@ X_test = X_test.reshape(X_test.shape[0], -1)  # [num_samples, num_features]
 
 # Initialize Logistic Regression for Multiclass Classification
 model = LogisticRegression(multi_class='multinomial', solver='lbfgs', max_iter=500)
-#model = LogisticRegression()
 model.fit(X_train, y_train)
 
 #Predictions
