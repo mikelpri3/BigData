@@ -1,5 +1,4 @@
 import kagglehub
-from load_data import load_dataset
 import os
 import cv2
 import numpy as np
@@ -9,10 +8,8 @@ import torch.optim as optim
 import torch.nn.functional as F
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader, Dataset
-import matplotlib.pyplot as plt
 dataset_path = kagglehub.dataset_download("mohammadhossein77/brain-tumors-dataset")
 dataset_path = os.path.join(dataset_path, "Data")
-
 
 
 IMG_SIZE = (224, 224)
@@ -72,24 +69,6 @@ train_dataset, test_dataset = torch.utils.data.random_split(brain_dataset, [trai
 train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
 
-# import matplotlib.pyplot as plt
-
-# # # Get one batch of images
-# data_iter = iter(train_loader)
-# images, labels = next(data_iter)
-
-# # # Convert tensor to NumPy image for display
-# image = images[0].permute(1, 2, 0).numpy()  # Convert from (C, H, W) to (H, W, C)
-
-# # # Plot the image
-# plt.imshow(image)
-# plt.axis("off")
-# plt.savefig("output_model.png")
-# plt.close()
-# print("Imagen guardada como output_model.png")
-
-
-######################  HASTA AQUI FUNCIONA   ####################################
 
 def get_device():
     return torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -122,7 +101,7 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # Training loop
-def train_model(model, train_loader, criterion, optimizer, num_epochs=10):
+def train_model(model, train_loader, criterion, optimizer, num_epochs):
     for epoch in range(num_epochs):
         model.train()
         running_loss = 0.0
@@ -137,7 +116,7 @@ def train_model(model, train_loader, criterion, optimizer, num_epochs=10):
         print(f"Epoch {epoch+1}/{num_epochs}, Loss: {running_loss/len(train_loader):.4f}")
 
 # Train the model
-train_model(model, train_loader, criterion, optimizer, num_epochs=10)
+train_model(model, train_loader, criterion, optimizer, num_epochs=4)
 
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
