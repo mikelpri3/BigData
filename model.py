@@ -6,7 +6,6 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
-import torchvision.transforms as transforms
 from torch.utils.data import DataLoader, Dataset
 import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
@@ -47,13 +46,8 @@ class BrainTumorDataset(Dataset):
         label = self.labels[idx]
         return img, label
 
-transform = transforms.Compose([
-    transforms.ToPILImage(),
-    transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-])
 
-brain_dataset = BrainTumorDataset(dataset_path, transform=transform)
+brain_dataset = BrainTumorDataset(dataset_path)
 train_size = int(0.8 * len(brain_dataset))
 test_size = len(brain_dataset) - train_size
 train_dataset, test_dataset = torch.utils.data.random_split(brain_dataset, [train_size, test_size])
@@ -119,7 +113,7 @@ def plot_training_loss(history):
     plt.close()
     print("Imagen guardada como training_loss.png")
 
-history = train_model(model, train_loader, criterion, optimizer, num_epochs=10)
+history = train_model(model, train_loader, criterion, optimizer, num_epochs=4)
 plot_training_loss(history)
 
 def evaluate_model(model, test_loader):

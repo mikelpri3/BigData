@@ -1,5 +1,4 @@
 import kagglehub
-
 import os
 from load_data import load_dataset
 from sklearn.linear_model import LogisticRegression
