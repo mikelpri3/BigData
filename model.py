@@ -9,6 +9,7 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader, Dataset
 import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from sklearn.model_selection import train_test_split
 
 dataset_path = kagglehub.dataset_download("mohammadhossein77/brain-tumors-dataset")
 dataset_path = os.path.join(dataset_path, "Data")
@@ -47,12 +48,25 @@ class BrainTumorDataset(Dataset):
         return img, label
 
 
+#Train-test obtainance by stratify
+
 brain_dataset = BrainTumorDataset(dataset_path)
-train_size = int(0.8 * len(brain_dataset))
-test_size = len(brain_dataset) - train_size
-train_dataset, test_dataset = torch.utils.data.random_split(brain_dataset, [train_size, test_size])
+
+labels = brain_dataset.labels
+
+train_indices, test_indices = train_test_split(
+    list(range(len(brain_dataset))),
+    test_size=0.2,
+    stratify=labels,
+    random_state=42
+)
+
+train_dataset = torch.utils.data.Subset(brain_dataset, train_indices)
+test_dataset = torch.utils.data.Subset(brain_dataset, test_indices)
+
 train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
+
 
 def get_device():
     return torch.device("cuda" if torch.cuda.is_available() else "cpu")
