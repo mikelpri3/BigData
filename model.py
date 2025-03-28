@@ -10,11 +10,24 @@ from torch.utils.data import DataLoader, Dataset
 import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.model_selection import train_test_split
+import random
 
 dataset_path = kagglehub.dataset_download("mohammadhossein77/brain-tumors-dataset")
 dataset_path = os.path.join(dataset_path, "Data")
 
 IMG_SIZE = (224, 224)
+
+# Fijar la seed para reproducibilidad
+def set_seed(seed):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)  # Si usas GPU
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+
+
+set_seed(42)
 
 class BrainTumorDataset(Dataset):
     def __init__(self, root_dir, transform=None):
@@ -39,7 +52,6 @@ class BrainTumorDataset(Dataset):
         img = cv2.imread(img_path)
         if img is None:
             raise FileNotFoundError(f"Could not load image: {img_path}")
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         img = cv2.resize(img, IMG_SIZE)
         img = img / 255.0
         img = np.transpose(img, (2, 0, 1))

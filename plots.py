@@ -13,7 +13,8 @@ dataset_path = os.path.join(dataset_path, "Data")
 #Load Dataset
 IMG_SIZE = (224, 224)
 
-from model import BrainTumorDataset
+from model import BrainTumorDataset, set_seed
+set_seed(42)
 
 # Create dataset
 brain_dataset = BrainTumorDataset(dataset_path)
