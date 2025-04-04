@@ -56,4 +56,4 @@ labels2 = brain_dataset2.labels
 
 from plots import show_random_samples
 
-show_random_samples(brain_dataset2)
+show_random_samples(brain_dataset2,brain_dataset2.classes)
