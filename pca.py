@@ -2,7 +2,6 @@ from sklearn.decomposition import PCA
 from sklearn.decomposition import IncrementalPCA
 import numpy as np
 import matplotlib.pyplot as plt
-from mean import images
 
 # from (N, C, H, W) to (N, C*H*W)
 flattened_images = images.reshape(images.shape[0], -1)  # (N, C*H*W)
