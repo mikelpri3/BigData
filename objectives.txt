@@ -3,7 +3,16 @@ OUR PROJECT OBJECTIVES
 1. Load the dataset correctly
 2. Create path for different folders, so we can distinguish between the different tumours
 3. Data preparation (categorize images)
-4. Learn about tensorflow and OpenCV to decide which one we use to train our model
-5.1 Train, test and validation of our model.
-5.2 If our model is wrong, change it and do the 5.1 step again
-6. Make visualizations of our model and sell it to osakidetza
+4. Create a Convolutional Neural Network for our data
+5. Due to the images variety, we will create a smaller dataset with only those images taken from an axial view to be able to categorize better the tumours.
+6. Learn about tensorflow and OpenCV to decide which one we use to train our model
+7.1 Train, test and validation of our model with the full dataset. Plot results.
+7.2 If our model is wrong, change it and do the 7.1 step again
+8. After we have done succesfully the previous steps, we will also train the smaller dataset (only axial images)
+9. Create thge mean image for each tumour and substract from it the information from the mean image of healthy brain
+    The difference should be the tumour itself
+10. Make other visualizations for more learning
+
+
+HOW TO RUN THE CODE
+The main is the python notebook. There you can execute everything without problems. The logic of each function is in the file we run before every function. 

@@ -6,19 +6,24 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mtick
 
-
-# PLOT 1: Conteo de imágenes por clase
+# PLOT 1: Count images per class
 def count_of_classes(brain_dataset):
     counts = [brain_dataset.labels.count(i) for i in range(len(brain_dataset.classes))]
-    plt.bar(brain_dataset.classes, counts, color='skyblue')
+
+    total = sum(counts)
+    percentages = [count / total * 100 for count in counts]
+
+    plt.bar(brain_dataset.classes, percentages, color='skyblue')
     plt.xticks(rotation=20, ha="right")
-    plt.title("Images Distribution per Class")
-    plt.ylabel("Amount of images")
+    plt.title("Image Distribution per Class")
+    plt.ylabel("Percentage of images")
+    
+    plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter())
+
     plt.tight_layout()
-    plt.savefig("amount_classes.png") # Guarda la imagen en un archivo
-    plt.close()
-    print("Imagen guardada como amount_classes.png")
+    plt.show()
 
 # PLOT 2: Random Samples
 def show_random_samples(dataset, classes):
