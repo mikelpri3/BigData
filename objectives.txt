@@ -9,7 +9,7 @@ OUR PROJECT OBJECTIVES
 6.2 If our model is wrong, change it and do the 7.1 step again
 7. Create the mean image for each tumour and substract from it the information from the mean image of healthy brain 
     The difference should be the tumour itself --> mean.py
-8. Make a PCA and T-SNE by classes to look for patterns in the images --> mean.py , t-sne.py
+8. Make a PCA and T-SNE by classes to look for patterns in the images --> pca.py , t-sne.py
 9. Make other visualizations for more learning --> plots.py
 
 
