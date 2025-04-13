@@ -1,18 +1,21 @@
 OUR PROJECT OBJECTIVES
 
-1. Load the dataset correctly
-2. Create path for different folders, so we can distinguish between the different tumours
-3. Data preparation (categorize images)
-4. Create a Convolutional Neural Network for our data
-5. Due to the images variety, we will create a smaller dataset with only those images taken from an axial view to be able to categorize better the tumours.
-6. Learn about tensorflow and OpenCV to decide which one we use to train our model
-7.1 Train, test and validation of our model with the full dataset. Plot results.
-7.2 If our model is wrong, change it and do the 7.1 step again
-8. After we have done succesfully the previous steps, we will also train the smaller dataset (only axial images)
-9. Create thge mean image for each tumour and substract from it the information from the mean image of healthy brain
-    The difference should be the tumour itself
-10. Make other visualizations for more learning
+1. Load the dataset correctly --> load_data.py
+2. Create path for different folders, so we can distinguish between the different tumours  --> load_data.py
+3. Create a Convolutional Neural Network for our data --> cnn.py
+4. Due to the images variety, we will create a smaller dataset with only those images taken from an axial view to be able to categorize better the tumours. --> load_data.py
+5. Learn about tensorflow and OpenCV to decide which one we use to train our model --> training.py
+6.1 Train, test and validation of our model with the full dataset. Plot results. --> training.py , plots.py
+6.2 If our model is wrong, change it and do the 7.1 step again
+7. Create the mean image for each tumour and substract from it the information from the mean image of healthy brain 
+    The difference should be the tumour itself --> mean.py
+8. Make a PCA and T-SNE by classes to look for patterns in the images --> mean.py , t-sne.py
+9. Make other visualizations for more learning --> plots.py
 
 
 HOW TO RUN THE CODE
 The main is the python notebook. There you can execute everything without problems. The logic of each function is in the file we run before every function. 
+
+If there is any problem with the notebook, try with this code at the beginning of the notebook:
+    import os
+    os.chdir('/home/myname/myfolder/BigData')
